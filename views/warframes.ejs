@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warframe Search</title>
+    <link rel="stylesheet" href="css/styles.css"> <!-- Link to external CSS -->
+    <script src="js/script.js" defer></script> <!-- Link to external JS -->
+    <script src="js/buttons.js" defer></script>
+</head>
+<body>
+    <%- include('navbar'); %>
+    <div class="container">
+        <h1>Warframe Information</h1>
+        <form action="/warframes" method="POST" onsubmit="return validateInput();">
+            <label for="warframe">Enter a Warframe:</label>
+            <input type="text" name="warframe" id="warframe" placeholder="Warframe name" required list="warframeOptions">
+            <datalist id="warframeOptions">
+                <% warframes.forEach(function(frame) { %>
+                    <option value="<%= frame.frameName %>"><%= frame.frameName %></option>
+                <% }); %>
+            </datalist>
+            <button type="submit">Submit</button>
+        </form>
+
+        <% if (frameInfo) { %>
+            <h2>Frame Information</h2>
+            <div class="frame-info">
+                <p><strong>Frame Name:</strong> <%- frameInfo.frameName %></p>
+                <p><strong>Blueprint:<br></strong> <%- frameInfo.blueprint.replace(/\n/g, '<br>') %></p>
+                <p><strong>Systems:<br></strong> <%- frameInfo.systems.replace(/\n/g, '<br>') %></p>
+                <p><strong>Chassis:<br></strong> <%- frameInfo.chassis.replace(/\n/g, '<br>') %></p>
+                <p><strong>Neuroptics:<br></strong> <%- frameInfo.neuroptics.replace(/\n/g, '<br>') %></p>
+                <p><strong><a href=<%- frameInfo.wikiLink -%> target="_blank">Link to Wiki Page</a></strong></p>
+                <% if (frameInfo.isVaulted) { %>
+                    <p><strong><%- frameInfo.frameName -%> is vaulted</strong></p>
+                <% } %>
+                <div class="ownsButton">
+                    <p>You <strong> <span id="ownership">do<%= frameInfo.ownership? "" : " not"%></span></strong> currently own <%=frameInfo.frameName%></p>
+                    <div class="dropdown-container">
+                        <button onclick="ownedButtonClick('<%- frameInfo.frameName%>')" id="toggleOwnership"> <%- ownershipMessage %> </button>
+                        <button id="dropdownToggle" class="dropdown-btn">&#9660;</button>
+                            <div id="dropdownForm" class="dropdown-form" style="display:none;">
+                            <form id="checkboxForm">
+                                <div>
+                                <label><input type="checkbox" name="Blueprint" <%= frameInfo.parts.Blueprint ? 'checked' : '' %>> Blueprint</label>
+                                </div>
+                                <div>
+                                <label><input type="checkbox" name="Neuroptics" <%= frameInfo.parts.Neuroptics ? 'checked' : '' %>> Neuroptics</label>
+                                </div>
+                                <div>
+                                    <label><input type="checkbox" name="Chassis" <%= frameInfo.parts.Chassis ? 'checked' : '' %>> Chassis</label>
+                                </div>
+                                <div>
+                                    <label><input type="checkbox" name="Systems" <%= frameInfo.parts.Systems ? 'checked' : '' %>> Systems</label>
+                                </div>
+                                <input type="hidden" id="frameName" value="<%= frameInfo.frameName %>">
+
+                                <button type="submit" class="form-submit-btn">Submit</button>
+                            </form>
+                            </div>
+                    </div>
+                </div>
+                
+            </div>
+        <% } %>
+        
+    </div>
+</body>
+</html>

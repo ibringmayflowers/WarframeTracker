@@ -1,0 +1,231 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Dark background color */
+    color: #e0e0e0; /* Light text color */
+    margin: 0; /* Remove default margin */
+    padding: 20px; /* Add padding to the body */
+}
+
+.container {
+    max-width: 600px; /* Limit the width of the content */
+    margin: 0 auto; /* Center the container */
+    background: #1e1e1e; /* Slightly lighter dark background for the form */
+    padding: 20px; /* Add padding to the container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+}
+
+h1, h2 {
+    text-align: center; /* Center the headings */
+    color: #00BFFF; /* Bright cyan for headings */
+}
+
+form {
+    display: flex; /* Use flexbox for form layout */
+    flex-direction: column; /* Stack elements vertically */
+    gap: 10px; /* Space between form elements */
+}
+
+label {
+    font-weight: bold; /* Bold label */
+    color: #e0e0e0; /* Light text for labels */
+}
+
+input[type="text"], input[type="password"] {
+    padding: 10px; /* Add padding to input */
+    border: 1px solid #444; /* Darker border */
+    border-radius: 4px; /* Rounded corners for input */
+    font-size: 16px; /* Larger font size */
+    background-color: #2a2a2a; /* Dark background for input */
+    color: #e0e0e0; /* Light text for input */
+}
+
+button {
+    padding: 10px 15px; /* Padding for button */
+    background-color: #007BFF; /* Bright blue background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 16px; /* Larger font size */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.frame-info {
+    text-align: left; /* Left align the text */
+    margin-left: 20px; /* Indent the whole section */
+    padding: 10px; /* Add padding */
+    background: #2a2a2a; /* Dark grey background for frame info */
+    border-radius: 4px; /* Rounded corners */
+    margin-top: 20px; /* Space above frame info */
+    border: 1px solid #444; /* Border for frame info */
+}
+
+.frame-info p {
+    margin: 5px 0; /* Add space between paragraphs */
+    color: #e0e0e0; /* Light text for frame info */
+}
+
+.frame-info strong {
+    color: #00BFFF; /* Bright cyan for strong text */
+}
+
+a{
+    color: #00bfff;
+    text-decoration: underline;
+}
+
+a:hover{
+    color: #004fff
+}
+
+.navbar {
+    display: flex; /* Use flexbox to align items */
+    justify-content: space-between; /* Space between brand and menu */
+    align-items: center; /* Center items vertically */
+    padding: 10px 20px; /* Padding for navbar */
+    background-color: #1e1e1e; /* Navbar background color */
+    margin-bottom: 20px; /* Add margin below the navbar */
+}
+
+.site-name {
+    color: #00BFFF; /* Bright cyan color for the site name */
+    font-size: 24px; /* Larger font size */
+    font-weight: bold; /* Make the site name bold */
+    margin-right: auto; /* Push the button to the right */
+    align-self: center; /* Vertically center the site name */
+    text-decoration: none; /* Remove underline */
+}
+
+.site-name:hover {
+    color: #00BFFF; /* Ensure the color stays the same on hover */
+}
+
+.menu-container {
+    position: relative; /* Position relative to control dropdown */
+}
+
+.hamburger-button {
+    background: none; /* No background */
+    border: none; /* No border */
+    color: #e0e0e0; /* Text color */
+    font-size: 24px; /* Increase size for visibility */
+    cursor: pointer; /* Pointer cursor */
+}
+
+.dropdown {
+    display: none; /* Hidden by default */
+    position: absolute; /* Position absolute to show below the button */
+    right: 0; /* Align to the right */
+    background-color: #1e1e1e; /* Background color for dropdown */
+    border: 1px solid #444; /* Border for dropdown */
+    border-radius: 4px; /* Rounded corners */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.dropdown-content {
+    display: flex; /* Flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    padding: 10px; /* Padding for the dropdown */
+}
+
+.dropdown-content a {
+    color: #e0e0e0; /* Light text for links */
+    text-decoration: none; /* No underline */
+    padding: 5px; /* Padding around links */
+}
+
+.dropdown-content a:hover {
+    color: #00BFFF; /* Highlight on hover */
+}
+
+.divider {
+    height: 1px; /* Height of divider */
+    background: #444; /* Color of divider */
+    margin: 5px 0; /* Margin for spacing */
+}
+
+/* Show dropdown when hamburger button is clicked */
+.dropdown.show {
+    display: block; /* Show the dropdown */
+}
+
+
+.dropdown-btn {
+    position: absolute; /* Absolute positioning */
+    right: 65px; /* Adjust to move it to the right */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Center vertically in relation to the button */
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    color: #e0e0e0; /* Text color */
+    font-size: 24px; /* Increase size for visibility */
+    cursor: pointer; /* Pointer cursor */
+    z-index: 1; /* Ensure it appears above other elements */
+}
+  
+  
+.dropdown-form {
+    position: absolute;
+    top: 100%; /* Position right below the dropdown button */
+    left: 0; /* Align with the left edge of the button */
+    background-color: #1e1e1e; /* Match the dropdown background color to the container */
+    border: 1px solid #444; /* Darker border for consistency */
+    padding: 15px; /* Keep the padding for spacing */
+    width: 220px; /* Slightly wider to accommodate text */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5); /* Darker shadow for depth */
+    z-index: 1000; /* Ensure it appears above other elements */
+    border-radius: 4px; /* Rounded corners for the dropdown */
+}
+
+.dropdown-form form {
+    display: flex; /* Flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+}
+.dropdown-form form div {
+    margin-bottom: 10px;
+}
+
+/* Submit button in the form */
+.form-submit-btn {
+    padding: 10px; /* Consistent padding with other buttons */
+    background-color: #007BFF; /* Match with other buttons */
+    color: white;
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+.form-submit-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+.dropdown-container {
+    position: relative; /* The container is now the reference for the dropdown form */
+    display: inline-block; /* Keeps the form with the button */
+}
+
+.dropdown-form label {
+    color: #e0e0e0; /* Light text for labels */
+}
+
+.dropdown-form input[type="checkbox"] {
+    margin-right: 5px; /* Space between checkbox and label */
+}
+
+
+#toggleOwnership {
+    padding-right: 60px; /* Add extra space on the right */
+    position: relative; /* Position relative for dropdown button alignment */
+    text-align: left; /* Align text to the left */
+    width: calc(100% - 60px); /* Adjust width to account for padding */
+    border: none; /* Optional: Remove border for a cleaner look */
+    background-color: #007BFF; /* Match background color for consistency */
+    color: white; /* White text color */
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css"> <!-- Link to external CSS -->
+    <script src="js/script.js" defer></script> <!-- Link to external JS -->
+    <title>The Warframe Tracker</title>
+</head>
+<body>
+    <div class="container">
+        <form action="/signup" method="POST" onsubmit="return validatePasswords();">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+        
+            <label for="password">Password (at least 7 characters):</label>
+            <input type="password" id="password" name="password" required><br><br>
+        
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm-password"><br><br>
+        
+            <button type="submit">Sign Up</button><br><br>
+        
+            <!-- Error message container -->
+            <p id="error-message" style="color: red;"> <%- errorMessage %> </p>
+        </form>
+
+        
+    </div>
+    
+    
+</body>
+</html>

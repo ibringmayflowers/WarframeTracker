@@ -1,0 +1,24 @@
+<!-- Navbar -->
+<nav class="navbar">
+    <a href="/home" class="site-name">GreenBanshee.com</a>
+    <div class="menu-container">
+        <button id="hamburger" class="hamburger-button">&#9776;</button> <!-- Hamburger Menu -->
+        <div class="dropdown">
+            <div class="dropdown-content">
+                <a href="/profile">Profile</a> <!-- Placeholder for Profile -->
+                <div class="divider"></div>
+                <a href="/logout" id="logout">Logout</a> <!-- Logout Option -->
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+<script>
+    document.getElementById('hamburger').addEventListener('click', function() {
+    const dropdown = document.querySelector('.dropdown');
+    dropdown.classList.toggle('show'); // Toggle the 'show' class
+});
+
+</script>
