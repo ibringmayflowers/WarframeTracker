@@ -28,10 +28,13 @@ async function ownedButtonClick(frame){
 
 document.addEventListener("DOMContentLoaded", function() {
     // Toggle the visibility of the dropdown form
-    document.getElementById("dropdownToggle").addEventListener("click", function() {
+    const element = document.getElementById("dropdownToggle")
+    if(element){
+        element.addEventListener("click", function() {
         const dropdownForm = document.getElementById("dropdownForm");
         dropdownForm.style.display = dropdownForm.style.display === "none" ? "block" : "none";
-    });
+        });
+    }
 
     // Handle the form submission without calling the original button's method
     document.getElementById("checkboxForm").addEventListener("submit", async function(event) {

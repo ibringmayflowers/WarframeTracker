@@ -5,14 +5,87 @@ body {
     margin: 0; /* Remove default margin */
     padding: 20px; /* Add padding to the body */
 }
-
+.bigContainer{
+    max-width:2000px;
+    display:flex;
+}
 .container {
-    max-width: 600px; /* Limit the width of the content */
+    max-width: 1200px; /* Limit the width of the content */
+    max-height: 2400px;
     margin: 0 auto; /* Center the container */
     background: #1e1e1e; /* Slightly lighter dark background for the form */
     padding: 20px; /* Add padding to the container */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+}
+
+.search {
+    width: 800px;
+    height: 700px;
+    position: relative;
+    left: 20px;
+}
+
+.checklist {
+    width: 800px;
+    height: 700px;
+    position: relative;
+    right: 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.checklistFilter select,
+.checklistFilter input {
+    padding: 5px; /* Consistent padding */
+    background-color: #2a2a2a; /* Match the background color */
+    border: 1px solid #444; /* Match the border style */
+    border-radius: 4px; /* Rounded corners */
+    color: #e0e0e0; /* Text color to match */
+    font-size: 16px; /* Consistent font size */
+}
+
+.checklistFilter{
+    display:flex;
+    justify-content: flex-end;
+    margin-left:auto;
+}
+
+.checklistFilter select:focus,
+.checklistFilter input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #007BFF; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow on focus */
+}
+
+.checklistFilter select{
+    height: 40px; /* Set height to match */
+    width: 150px
+}
+
+.checklistFilter input{
+    width:120px;
+}
+
+
+::-webkit-scrollbar {
+    width: 10px; 
+}
+
+::-webkit-scrollbar-track {
+    background: #cccccc0c; /* Change this to gray for the scrollbar track */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
 }
 
 h1, h2 {
@@ -63,6 +136,8 @@ button:hover {
     border-radius: 4px; /* Rounded corners */
     margin-top: 20px; /* Space above frame info */
     border: 1px solid #444; /* Border for frame info */
+    overflow:auto;
+    max-height: 300px;
 }
 
 .frame-info p {
@@ -228,4 +303,14 @@ a:hover{
     border: none; /* Optional: Remove border for a cleaner look */
     background-color: #007BFF; /* Match background color for consistency */
     color: white; /* White text color */
+}
+
+.invisalink {
+    color: white;            /* Set the text color to white */
+    text-decoration: none;   /* Remove the underline by default */
+}
+
+.invisalink:hover {
+    text-decoration: underline; /* Underline the link on hover */
+    color: white;
 }

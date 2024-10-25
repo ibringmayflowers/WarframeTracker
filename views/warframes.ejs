@@ -7,63 +7,131 @@
     <link rel="stylesheet" href="css/styles.css"> <!-- Link to external CSS -->
     <script src="js/script.js" defer></script> <!-- Link to external JS -->
     <script src="js/buttons.js" defer></script>
+    <script src="js/checklistFilter.js" defer></script>
 </head>
 <body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Array.from(document.getElementsByClassName("frameLookup")).forEach(element => {
+                element.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    const frame_name = element.getAttribute("data-element");
+                    const frameSubmitFormData = {
+                        warframe: frame_name
+                    };
+
+                    fetch('/warframes', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(frameSubmitFormData)
+                    })
+                    .then(response => {
+                        if(!response.ok){
+                            throw new Error('unable to retrieve data from server');
+                        }
+                        return response.text();
+                    })
+                    .then(html =>{
+                        document.open();
+                        document.write(html);
+                        document.close();
+                    })
+                    .catch(error =>{
+                        console.error('oh noes', error);
+                    });
+                });
+            });
+        });
+    </script>
     <%- include('navbar'); %>
-    <div class="container">
-        <h1>Warframe Information</h1>
-        <form action="/warframes" method="POST" onsubmit="return validateInput();">
-            <label for="warframe">Enter a Warframe:</label>
-            <input type="text" name="warframe" id="warframe" placeholder="Warframe name" required list="warframeOptions">
-            <datalist id="warframeOptions">
-                <% warframes.forEach(function(frame) { %>
-                    <option value="<%= frame.frameName %>"><%= frame.frameName %></option>
-                <% }); %>
-            </datalist>
-            <button type="submit">Submit</button>
-        </form>
-
-        <% if (frameInfo) { %>
-            <h2>Frame Information</h2>
-            <div class="frame-info">
-                <p><strong>Frame Name:</strong> <%- frameInfo.frameName %></p>
-                <p><strong>Blueprint:<br></strong> <%- frameInfo.blueprint.replace(/\n/g, '<br>') %></p>
-                <p><strong>Systems:<br></strong> <%- frameInfo.systems.replace(/\n/g, '<br>') %></p>
-                <p><strong>Chassis:<br></strong> <%- frameInfo.chassis.replace(/\n/g, '<br>') %></p>
-                <p><strong>Neuroptics:<br></strong> <%- frameInfo.neuroptics.replace(/\n/g, '<br>') %></p>
-                <p><strong><a href=<%- frameInfo.wikiLink -%> target="_blank">Link to Wiki Page</a></strong></p>
-                <% if (frameInfo.isVaulted) { %>
-                    <p><strong><%- frameInfo.frameName -%> is vaulted</strong></p>
-                <% } %>
-                <div class="ownsButton">
-                    <p>You <strong> <span id="ownership">do<%= frameInfo.ownership? "" : " not"%></span></strong> currently own <%=frameInfo.frameName%></p>
-                    <div class="dropdown-container">
-                        <button onclick="ownedButtonClick('<%- frameInfo.frameName%>')" id="toggleOwnership"> <%- ownershipMessage %> </button>
-                        <button id="dropdownToggle" class="dropdown-btn">&#9660;</button>
-                            <div id="dropdownForm" class="dropdown-form" style="display:none;">
-                            <form id="checkboxForm">
-                                <div>
-                                <label><input type="checkbox" name="Blueprint" <%= frameInfo.parts.Blueprint ? 'checked' : '' %>> Blueprint</label>
-                                </div>
-                                <div>
-                                <label><input type="checkbox" name="Neuroptics" <%= frameInfo.parts.Neuroptics ? 'checked' : '' %>> Neuroptics</label>
-                                </div>
-                                <div>
-                                    <label><input type="checkbox" name="Chassis" <%= frameInfo.parts.Chassis ? 'checked' : '' %>> Chassis</label>
-                                </div>
-                                <div>
-                                    <label><input type="checkbox" name="Systems" <%= frameInfo.parts.Systems ? 'checked' : '' %>> Systems</label>
-                                </div>
-                                <input type="hidden" id="frameName" value="<%= frameInfo.frameName %>">
-
-                                <button type="submit" class="form-submit-btn">Submit</button>
-                            </form>
-                            </div>
-                    </div>
-                </div>
-                
+    <div class="bigContainer">
+        <div class="checklist container">
+            <h1>Warframe Checklist</h1>
+            <div class="checklistFilter">
+                <select id="checklistFilterType">
+                    <option value="" disabled>Filter By</option>
+                    <option value="name">Name</option>
+                    <option value="ownership">Ownership</option>
+                </select>
+                <input type="text" id="filterInput" placeholder="Type to filter..." oninput="filterList()">
             </div>
-        <% } %>
+            <div class="checklistContainer">
+                <ul id="frameList">
+                    <p><hr></p>
+                    <% warframes.forEach(function(frame) { %>
+                        <li>
+                            <a class="invisalink frameLookup" href="#" data-element="<%=frame.frameName%>" ><%= frame.frameName %></a>
+                            <span style="float:right; color:<%= frame.owned? "green" : "red" %>;" >
+                                <%= frame.owned? "owned" : "unowned" %>
+                            </span>
+                            <p>
+                                <hr>
+                            </p>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+        </div>
+        <div class="search container">
+            <h1>Warframe Information</h1>
+            <form action="/warframes" method="POST" onsubmit="return validateInput();">
+                <label for="warframe">Enter a Warframe:</label>
+                <input type="text" name="warframe" id="warframe" placeholder="Warframe name" required list="warframeOptions">
+                <datalist id="warframeOptions">
+                    <% warframes.forEach(function(frame) { %>
+                        <option value="<%= frame.frameName %>"><%= frame.frameName %></option>
+                    <% }); %>
+                </datalist>
+                <button type="submit">Submit</button>
+            </form>
+
+            <% if (frameInfo) { %>
+                <h2>Frame Information</h2>
+                <div class="frame-info">
+                    <p><strong>Frame Name:</strong> <%- frameInfo.frameName %></p>
+                    <p><strong>Blueprint:<br></strong> <%- frameInfo.blueprint.replace(/\n/g, '<br>') %></p>
+                    <p><strong>Systems:<br></strong> <%- frameInfo.systems.replace(/\n/g, '<br>') %></p>
+                    <p><strong>Chassis:<br></strong> <%- frameInfo.chassis.replace(/\n/g, '<br>') %></p>
+                    <p><strong>Neuroptics:<br></strong> <%- frameInfo.neuroptics.replace(/\n/g, '<br>') %></p>
+                    <p><strong><a href=<%- frameInfo.wikiLink -%> target="_blank">Link to Wiki Page</a></strong></p>
+                </div>
+                    <% if (frameInfo.isVaulted) { %>
+                        <p><strong><%- frameInfo.frameName -%> is vaulted</strong></p>
+                    <% } %>
+                    
+                    <div class="ownsButton">
+                        <p>You <strong> <span id="ownership">do<%= frameInfo.ownership? "" : " not"%></span></strong> currently own <%=frameInfo.frameName%></p>
+                        <div class="dropdown-container">
+                            <button onclick="ownedButtonClick('<%- frameInfo.frameName%>')" id="toggleOwnership"> <%- ownershipMessage %> </button>
+                            <button id="dropdownToggle" class="dropdown-btn">&#9660;</button>
+                                <div id="dropdownForm" class="dropdown-form" style="display:none;">
+                                <form id="checkboxForm">
+                                    <div>
+                                    <label><input type="checkbox" name="Blueprint" <%= frameInfo.parts.Blueprint ? 'checked' : '' %>> Blueprint</label>
+                                    </div>
+                                    <div>
+                                    <label><input type="checkbox" name="Neuroptics" <%= frameInfo.parts.Neuroptics ? 'checked' : '' %>> Neuroptics</label>
+                                    </div>
+                                    <div>
+                                        <label><input type="checkbox" name="Chassis" <%= frameInfo.parts.Chassis ? 'checked' : '' %>> Chassis</label>
+                                    </div>
+                                    <div>
+                                        <label><input type="checkbox" name="Systems" <%= frameInfo.parts.Systems ? 'checked' : '' %>> Systems</label>
+                                    </div>
+                                    <input type="hidden" id="frameName" value="<%= frameInfo.frameName %>">
+
+                                    <button type="submit" class="form-submit-btn">Submit</button>
+                                </form>
+                                </div>
+                        </div>
+                    </div>
+                    
+               
+            <% } %>
+            
+        </div>
         
     </div>
 </body>

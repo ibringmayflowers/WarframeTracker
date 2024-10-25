@@ -61,6 +61,18 @@ class Database{
         return query.all();
     }
 
+    getFrameOwnership(){
+        const allFrames = this.getFrameNames();
+        for(let i = 0 ; i < allFrames.length; i++){
+            let frameName = allFrames[i].frameName;
+            let ownsFrameQuery =  this.#db.prepare('SELECT COUNT(*) AS owned FROM (SELECT * FROM acquired WHERE itemName = ?)').all(frameName)
+            let ownsFrame = ownsFrameQuery[0].owned? true : false;
+            allFrames[i] = {frameName: frameName, owned: ownsFrame}
+        }
+        //console.log(allFrames)
+        return allFrames;
+    }
+
     /**
      * adds a user to the database
      * @param {*} username 
