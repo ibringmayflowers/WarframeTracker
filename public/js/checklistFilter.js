@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 filterInput.style.display = 'none'; // Hide text input
             }
             createOwnershipDropdown();
+            filterList('all');
         } else {
             // Show the filter input again
             if (filterInput) {
@@ -37,7 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (existingDropdown) {
                 existingDropdown.remove(); // Remove ownership dropdown
             }
+            filterList('');
+            
         }
+        
     }
 
     function createOwnershipDropdown() {
@@ -50,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const dropdown = document.createElement('select');
         dropdown.setAttribute('id', 'ownershipFilter');
         dropdown.innerHTML = `
-            <option value="" disabled>Select Ownership</option>
-            <option value="owned" selected>Owned</option>
+            <option value="" disabled selected>Select</option>
+            <option value="owned">Owned</option>
             <option value="unowned">Unowned</option>
         `;
 
@@ -69,22 +73,26 @@ document.addEventListener('DOMContentLoaded', function() {
         filterContainer.appendChild(dropdown);
     }
 
-    function filterList(selectedValue = '') {
-        const checklistItems = document.querySelectorAll('.checklist-item'); // Assuming checklist items have this class
-        checklistItems.forEach(item => {
-            const itemName = item.querySelector('.item-name').textContent.toLowerCase(); // Adjust according to your markup
-            const isOwned = item.classList.contains('owned'); // Adjust to check ownership status
-
-            // Show/hide item based on filter
-            if (selectedValue === 'owned' && isOwned) {
-                item.style.display = ''; // Show owned items
-            } else if (selectedValue === 'unowned' && !isOwned) {
-                item.style.display = ''; // Show unowned items
-            } else if (selectedValue === '' && itemName.includes(filterInput.value.toLowerCase())) {
-                item.style.display = ''; // Show items matching the name filter
-            } else {
-                item.style.display = 'none'; // Hide items
-            }
-        });
-    }
+    
 });
+
+function filterList(selectedValue = '') {
+    const checklistItems = document.querySelectorAll('.checklist-item'); // Assuming checklist items have this class
+    checklistItems.forEach(item => {
+        const itemName = item.querySelector('a').getAttribute('data-element').toLowerCase(); // Adjust according to your markup 
+        const isOwned = !item.textContent.includes("unowned");
+
+        // Show/hide item based on filter
+        if (selectedValue == 'all'){
+            item.style.display = ''; //show every item
+        }else if (selectedValue === 'owned' && isOwned) {
+            item.style.display = ''; // Show owned items
+        } else if (selectedValue === 'unowned' && !isOwned) {
+            item.style.display = ''; // Show unowned items
+        } else if (selectedValue === '' && itemName.includes(filterInput.value.toLowerCase())) {
+            item.style.display = ''; // Show items matching the name filter
+        } else {
+            item.style.display = 'none'; // Hide items
+        }
+    });
+}

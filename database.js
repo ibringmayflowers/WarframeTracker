@@ -61,11 +61,14 @@ class Database{
         return query.all();
     }
 
-    getFrameOwnership(){
+    getFrameOwnership(user){
         const allFrames = this.getFrameNames();
+        //console.log(user);
         for(let i = 0 ; i < allFrames.length; i++){
             let frameName = allFrames[i].frameName;
-            let ownsFrameQuery =  this.#db.prepare('SELECT COUNT(*) AS owned FROM (SELECT * FROM acquired WHERE itemName = ?)').all(frameName)
+            let testQuery = this.#db.prepare('SELECT * FROM acquired where itemName = ? AND username = ?').all(frameName, user);
+            //console.log(testQuery);
+            let ownsFrameQuery =  this.#db.prepare('SELECT COUNT(*) AS owned FROM (SELECT * FROM acquired WHERE itemName = ? AND username = ?)').all(frameName, user)
             let ownsFrame = ownsFrameQuery[0].owned? true : false;
             allFrames[i] = {frameName: frameName, owned: ownsFrame}
         }

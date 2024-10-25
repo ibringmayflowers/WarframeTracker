@@ -61,7 +61,7 @@
                 <ul id="frameList">
                     <p><hr></p>
                     <% warframes.forEach(function(frame) { %>
-                        <li>
+                        <li class="checklist-item">
                             <a class="invisalink frameLookup" href="#" data-element="<%=frame.frameName%>" ><%= frame.frameName %></a>
                             <span style="float:right; color:<%= frame.owned? "green" : "red" %>;" >
                                 <%= frame.owned? "owned" : "unowned" %>

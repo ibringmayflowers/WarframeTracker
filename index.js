@@ -66,7 +66,7 @@ app.route("/signup")
 
 app.route("/warframes")
     .get(tokens.verifyToken, (req, res) =>{
-        res.render("warframes.ejs", {warframes: db.getFrameOwnership(), frameInfo: null, ownershipMessage: ""});
+        res.render("warframes.ejs", {warframes: db.getFrameOwnership(req.user.username), frameInfo: null, ownershipMessage: ""});
     })
     .post(tokens.verifyToken, (req, res) =>{
         //console.log(req.body);
@@ -77,7 +77,7 @@ app.route("/warframes")
         //console.log(info.parts);
         //console.log(info);
         const ownershipMessage = db.userOwnsItem(req.user.username, req.body.warframe)? "I no longer own this frame" : "I now own this frame";
-        res.render("warframes.ejs", {warframes: db.getFrameOwnership(), frameInfo: info, ownershipMessage: ownershipMessage});
+        res.render("warframes.ejs", {warframes: db.getFrameOwnership(req.user.username), frameInfo: info, ownershipMessage: ownershipMessage});
     });
 
 app.route("/warframes/ownership")
