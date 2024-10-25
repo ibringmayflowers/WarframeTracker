@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const database = require('./database.js');
 const bodyParser = require("body-parser");
@@ -6,9 +7,9 @@ const cookieParser = require("cookie-parser")
 
 
 const app = express();
-const port = 28472;
+const port = process.env.PORT;
 
-const db = new database("./db.db");
+const db = new database(process.env.DB_PATH);
 
 app.use(express.static('public'));
 app.use('/css', express.static(__dirname+'public/css'));
@@ -100,7 +101,35 @@ app.route("/warframes/updateFrameOwnership")
         }
     })
 
-app.listen(port, ()=>{
+const server = app.listen(port, ()=>{
     db.getFrameNames();
-    console.log("server is now running!");
+    console.log("server is now running on port " + port+ "\n");
 });
+
+
+
+// Graceful shutdown
+process.on('SIGINT', () => {
+    console.log('Shutting down server...\n');
+    server.close(() => {
+      console.log('Server closed. Exiting process...\n');
+      process.exit(0);
+    });
+  });
+  
+  const AUTH_TOKEN = process.env.SHUTDOWN_TOKEN
+  // Custom endpoint to trigger shutdown
+  app.post('/shutdown', (req, res) => {
+    const token = req.headers['authorization'];
+  
+    // Check for the correct token
+    if (token === `Bearer ${AUTH_TOKEN}`) {
+      res.send('Shutting down the server...\n');
+      server.close(() => {
+        process.exit(0);
+      });
+    } else {
+      res.status(403).send('Forbidden: Invalid authentication token');
+    }
+  });
+  

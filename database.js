@@ -1,3 +1,4 @@
+require('dotenv').config();
 const sqlite3 = require("better-sqlite3");
 const fs = require("node:fs");
 const readline = require('readline');
@@ -192,12 +193,12 @@ function askQuestionAsync(reader, question){
 async function main(){
     let db
     if(INITIALIZE){
-        db = new Database("db.db","./database_schema.sql");
+        db = new Database(process.env.DB_PATH,"./database_schema.sql");
         await initFrames(db);
         console.log(db.getAllFrames());
         
     }else{
-        db = new Database("db.db");
+        db = new Database(process.env.DB_PATH);
     }
     const r1 = readline.createInterface({
         input: process.stdin,

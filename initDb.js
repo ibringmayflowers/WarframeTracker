@@ -1,3 +1,4 @@
+require('dotenv').config();
 const database = require('./database.js');
 const fs = require("node:fs");
 const csv = require('csv-parser');
@@ -57,7 +58,7 @@ function initRelics(db){
 }
 
 async function main(){
-    db = new database("db.db","./database_schema.sql");
+    db = new database(process.env.DB_PATH,"./database_schema.sql");
             await initRelics(db);
             await initFrames(db);
             db.addUser("bob", "12341234", true);

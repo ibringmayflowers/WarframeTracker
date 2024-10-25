@@ -1,2 +1,5 @@
 db.db
 node_modules
+test_db.db
+.env
+shutdown.sh
