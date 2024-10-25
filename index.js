@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser")
 
 
 const app = express();
-const port = 3000;
+const port = 28472;
 
 const db = new database("./db.db");
 
@@ -73,7 +73,7 @@ app.route("/warframes")
         info.wikiLink = generateWikiLink(req.body.warframe);
         info.ownership = db.userOwnsItem(req.user.username, req.body.warframe);
         info.parts = db.getFramePartOwnership(req.body.warframe, req.user.username);
-        console.log(info.parts);
+        //console.log(info.parts);
         //console.log(info);
         const ownershipMessage = db.userOwnsItem(req.user.username, req.body.warframe)? "I no longer own this frame" : "I now own this frame";
         res.render("warframes.ejs", {warframes: db.getFrameNames(), frameInfo: info, ownershipMessage: ownershipMessage});

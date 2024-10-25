@@ -165,6 +165,15 @@ class Database{
         }
         return returnVal;
     }
+
+    resetPassword(username, newPassword){
+        let query = this.#db.prepare('UPDATE users SET password=? WHERE username=?');
+        query.run(newPassword, username);
+    }
+
+    unsafeSqlPrompt(prompt){
+        this.#db.prepare(prompt).all();
+    }
 }
 
 
